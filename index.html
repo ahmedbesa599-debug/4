@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>𝑩 𝑬 𝑺 𝑨 — 𝑹 𝑶 𝑫 𝒀</title>
+<link rel="icon" href="https://emojicdn.elk.sh/❤️?style=apple">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','SF Pro Text',SFPro,system-ui!important;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}
+body{background:#000;overflow-x:hidden;min-height:100vh;color:#fff}
+canvas#bg{position:fixed;inset:0;z-index:0}
+#hearts{position:fixed;inset:0;pointer-events:none;z-index:5}
+.heart{position:absolute;animation:floatH var(--d) linear forwards}
+@keyframes floatH{0%{transform:translateY(110vh) translateX(0) scale(0) rotate(0);opacity:0}10%{opacity:1}100%{transform:translateY(-15vh) translateX(var(--x)) scale(1.8) rotate(360deg);opacity:0}}
+#counter{position:fixed;top:18px;left:50%;transform:translateX(-50%) scale(.9);z-index:90;display:flex;gap:14px;align-items:center;background:rgba(22,22,22,.8);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:.5px solid rgba(255,255,255,.18);padding:10px 22px;border-radius:100px;opacity:0;transition:1.2s cubic-bezier(.16,1,.3,1);box-shadow:0 10px 40px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.15)}
+#counter.show{opacity:1;transform:translateX(-50%) scale(1)}
+.cx{display:flex;flex-direction:column;align-items:center;min-width:42px}.cn{font-weight:700;font-size:18px;letter-spacing:-.5px}.cl{font-size:8px;font-weight:600;letter-spacing:1.2px;color:rgba(255,255,255,.45);margin-top:2px}.dot{width:3px;height:3px;background:rgba(255,255,255,.3);border-radius:50%;margin:0 2px}
+
+#intro{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:1.4s}
+.names{display:flex;gap:18px;align-items:center}
+.name{font-size:clamp(48px,9vw,88px);letter-spacing:7px;color:#fff;text-shadow:0 0 20px #ff2a6d,0 0 60px #ff2a6d,0 0 120px rgba(255,42,109,.7);display:flex;gap:5px}
+.name span{display:inline-block;opacity:0;transform:translateY(100px) rotateX(-90deg) scale(.5);filter:blur(12px);transition:1.1s cubic-bezier(.16,1,.3,1)}
+.name span.show{opacity:1;transform:none;filter:blur(0)}
+.dash{font-size:36px;color:#ff2a6d;text-shadow:0 0 30px #ff2a6d;opacity:0;transition:1s 1.2s}.dash.show{opacity:1}
+#sub{margin-top:18px;font-size:10.5px;font-weight:500;letter-spacing:7px;color:rgba(255,255,255,.5);opacity:0;transition:1.5s 1.8s}#sub.show{opacity:1}
+#tap{margin-top:42px;padding:14px 30px;border-radius:100px;background:#fff;color:#000;font-weight:600;font-size:14.5px;border:none;cursor:pointer;opacity:0;transform:translateY(18px);transition:1s 2.2s;box-shadow:0 10px 40px rgba(255,255,255,.25)}#tap.show{opacity:1;transform:none}#tap:active{transform:scale(.96)}
+#yt{position:fixed;width:1px;height:1px;opacity:.01;pointer-events:none;top:-200px}
+
+/* قسم ال 100 سبب */
+#reasons{position:relative;z-index:20;max-width:720px;margin:0 auto;padding:120px 18px 80px;display:none}
+#reasons.show{display:block}
+.title{font-size:clamp(30px,6vw,48px);letter-spacing:5px;text-align:center;text-shadow:0 0 25px #ff2a6d,0 0 60px #ff2a6d;margin-bottom:8px}
+.title span{letter-spacing:8px}
+.subt{text-align:center;font-size:11px;letter-spacing:4px;color:rgba(255,255,255,.5);margin-bottom:32px}
+.card{background:rgba(22,22,24,.75);backdrop-filter:blur(28px) saturate(180%);-webkit-backdrop-filter:blur(28px) saturate(180%);border:.5px solid rgba(255,255,255,.12);border-radius:20px;padding:16px 18px;margin-bottom:12px;display:flex;gap:12px;align-items:flex-start;transform:translateY(30px) scale(.96);opacity:0;filter:blur(8px);transition:.9s cubic-bezier(.16,1,.3,1);box-shadow:0 10px 30px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.08)}
+.card.show{transform:none;opacity:1;filter:blur(0)}
+.num{font-weight:700;font-size:13px;color:#ff2a6d;min-width:32px;margin-top:2px;letter-spacing:-.5px}
+.txt{font-size:15.5px;line-height:1.6;font-weight:400;letter-spacing:-.2px;flex:1}
+.emoji{width:22px;height:22px;flex-shrink:0;margin-top:1px}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+<div id="hearts"></div>
+<div id="yt"></div>
+
+<div id="counter">
+  <div class="cx"><div class="cn" id="d">0</div><div class="cl">DAYS</div></div><div class="dot"></div>
+  <div class="cx"><div class="cn" id="h">00</div><div class="cl">HOURS</div></div><div class="dot"></div>
+  <div class="cx"><div class="cn" id="m">00</div><div class="cl">MINS</div></div><div class="dot"></div>
+  <div class="cx"><div class="cn" id="s">00</div><div class="cl">SECS</div></div>
+</div>
+
+<div id="intro">
+  <div class="names">
+    <div class="name" id="besa"></div>
+    <div class="dash" id="dash">—</div>
+    <div class="name" id="rody"></div>
+  </div>
+  <div id="sub">SINCE 01 • 09 • 2025</div>
+  <button id="tap">Tap to feel us ❤️</button>
+</div>
+
+<div id="reasons">
+  <div class="title"><span>𝑩 𝑬 𝑺 𝑨 — 𝑹 𝑶 𝑫 𝒀</span></div>
+  <div class="subt">100 𝑺𝑨𝑩𝑨𝑩 𝒀𝑲𝑯𝑨𝑳𝑰𝑵𝒀 𝑨𝑯𝑬𝑩𝑲</div>
+  <div id="list"></div>
+</div>
+
+<script>
+// نجوم
+const c=document.getElementById('bg'),x=c.getContext('2d');function rs(){c.width=innerWidth;c.height=innerHeight}rs();addEventListener('resize',rs);
+let stars=[];for(let i=0;i<300;i++)stars.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.8,s:Math.random()*.7+.2});
+(function dr(){x.clearRect(0,0,c.width,c.height);for(let s of stars){s.y+=s.s;if(s.y>c.height){s.y=0;s.x=Math.random()*c.width}x.fillStyle=`rgba(255,${100+Math.random()*60},${120+Math.random()*80},${.35+Math.random()*.65})`;x.beginPath();x.arc(s.x,s.y,s.r,0,6.28);x.fill()}requestAnimationFrame(dr)})();
+
+// قلوب ايفون صورة
+const hb=document.getElementById('hearts');
+function heart(){
+  const img=document.createElement('img');
+  img.className='heart';
+  img.src='https://emojicdn.elk.sh/❤️?style=apple';
+  const variants=['❤️','💖','💗','💓','💞','💘','👸🏻','💗'];
+  img.src=`https://emojicdn.elk.sh/${encodeURIComponent(variants[Math.floor(Math.random()*variants.length)])}?style=apple`;
+  img.style.left=Math.random()*100+'vw';
+  img.style.setProperty('--x',(Math.random()-.5)*340+'px');
+  img.style.setProperty('--d',(5+Math.random()*5)+'s');
+  const sz=18+Math.random()*32;img.style.width=sz+'px';img.style.height=sz+'px';
+  hb.appendChild(img);setTimeout(()=>img.remove(),9000);
+}
+
+// دخلة الحروف
+const besaLetters=['𝑩','𝑬','𝑺','𝑨'], rodyLetters=['𝑹','𝑶','𝑫','𝒀'];
+const bDiv=document.getElementById('besa'), rDiv=document.getElementById('rody');
+function make(arr,div,delay){
+  arr.forEach((ch,i)=>{
+    const sp=document.createElement('span');sp.textContent=ch;div.appendChild(sp);
+    setTimeout(()=>sp.classList.add('show'),delay+i*110);
+  });
+}
+make(besaLetters,bDiv,300);
+setTimeout(()=>document.getElementById('dash').classList.add('show'),900);
+make(rodyLetters,rDiv,1050);
+setTimeout(()=>document.getElementById('sub').classList.add('show'),1850);
+setTimeout(()=>document.getElementById('tap').classList.add('show'),2250);
+
+// عداد
+const start=new Date('2025-09-01T00:00:00');
+function upd(){const d=Date.now()-start;document.getElementById('d').textContent=Math.floor(d/86400000);document.getElementById('h').textContent=String(Math.floor(d/3600000)%24).padStart(2,'0');document.getElementById('m').textContent=String(Math.floor(d/60000)%60).padStart(2,'0');document.getElementById('s').textContent=String(Math.floor(d/1000)%60).padStart(2,'0')}
+setInterval(upd,1000);upd();
+
+// يوتيوب من 0:43
+let ytPlayer,ready=false;
+var tag=document.createElement('script');tag.src="https://www.youtube.com/iframe_api";document.head.appendChild(tag);
+function onYouTubeIframeAPIReady(){ytPlayer=new YT.Player('yt',{height:'1',width:'1',videoId:'ZLhWlUFmGMA',playerVars:{start:43,autoplay:0,loop:1,playlist:'ZLhWlUFmGMA',controls:0,modestbranding:1,rel:0},events:{onReady:()=>{ready=true}}})}
+
+// ال100 سبب - بنفس كلامك
+const reasons=[
+"حبيتڪ ؏ لقيت فيڪي الحاجه ﺎللي ملقتهاش ف اۍ بنت 👸🏻💗",
+"حبيتڪ ؏ عمࢪي فـ يوم م فڪࢪت ازعل منڪ 👸🏻💗",
+"حبيتڪ ؏ عيونڪ الحلوين دول 👸🏻💗",
+"حبيتڪ ؏ ضحڪتك اللي لما بسمـ؏ـها يومۍ بيبقي حاجه تانيه 👸🏻💗",
+"حبيتڪ ؏ حبيت الڪلام معاڪي من اول م ڪلمتك 👸🏻💗",
+"حبيتڪ ؏ مشوفتش اجد؏ منڪ 👸🏻💗",
+"حبيتڪ ؏ عمࢪي م هلاقۍ ف جمالك 👸🏻💗",
+"حبيتڪ ؏ خليتڪ معايا ؏ الحلوه و؏ المࢪه 👸🏻💗",
+"حبيتڪ ؏ غيࢪتڪ عليا اللي بتثبتلي انڪ بتحبيني بجد 👸🏻💗",
+"حبيتڪ ؏ انتي بيتي اللي بࢪتاح فيه 👸🏻💗",
+"حبيتڪ ؏ صوتڪ بيطمني 👸🏻💗",
+"حبيتڪ ؏ بتفهميني من نظره 👸🏻💗",
+"حبيتڪ ؏ ايدڪ لما بتمسڪ ايدي 👸🏻💗",
+"حبيتڪ ؏ بتستحمليني 👸🏻💗",
+"حبيتڪ ؏ دماغڪ اللي برتاح ف الڪلام معاها 👸🏻💗",
+"حبيتڪ ؏ ريحة برفانڪ 👸🏻💗",
+"حبيتڪ ؏ بتشيليني وقت الزعل 👸🏻💗",
+"حبيتڪ ؏ شڪلڪ وانتۍ نايمه 👸🏻💗",
+"حبيتڪ ؏ مستقبلنا اللي برسمه معاڪي 👸🏻💗",
+"حبيتڪ ؏ انتي وطني 👸🏻💗",
+"حبيتڪ ؏ بتخلي اليوم الحلو احلى 👸🏻💗",
+"حبيتڪ ؏ بتهوني عليا اليوم الوحش 👸🏻💗",
+"حبيتڪ ؏ بتشجعيني 👸🏻💗",
+"حبيتڪ ؏ بتقوليلي الحق حتي لو هيزعلني 👸🏻💗",
+"حبيتڪ ؏ جنانڪ 👸🏻💗",
+"حبيتڪ ؏ عقلڪ 👸🏻💗",
+"حبيتڪ ؏ قلبڪ الطيب 👸🏻💗",
+"حبيتڪ ؏ شقاوتڪ 👸🏻💗",
+"حبيتڪ ؏ خوفڪ عليا 👸🏻💗",
+"حبيتڪ ؏ اهتمامڪ بيا 👸🏻💗",
+"حبيتڪ ؏ بتعملي قهوه 👸🏻💗",
+"حبيتڪ ؏ بتسمعيني للصبح 👸🏻💗",
+"حبيتڪ ؏ بتصالحيني 👸🏻💗",
+"حبيتڪ ؏ بتفرحي بحاجتي الصغيره 👸🏻💗",
+"حبيتڪ ؏ بتحلمي معايا 👸🏻💗",
+"حبيتڪ ؏ اسمڪ 👸🏻💗",
+"حبيتڪ ؏ شعرڪ 👸🏻💗",
+"حبيتڪ ؏ وشڪ 👸🏻💗",
+"حبيتڪ ؏ تفاصيلڪ 👸🏻💗",
+"حبيتڪ ؏ ڪلڪ 👸🏻💗",
+"حبيتڪ ؏ بتخليني احسن 👸🏻💗",
+"حبيتڪ ؏ بتديني امل 👸🏻💗",
+"حبيتڪ ؏ بتقولي انا معاڪ 👸🏻💗",
+"حبيتڪ ؏ حضنڪ ف الڪلام 👸🏻💗",
+"حبيتڪ ؏ بتستنيني 👸🏻💗",
+"حبيتڪ ؏ بتختاريني ڪل يوم 👸🏻💗",
+"حبيتڪ ؏ بتسامحيني 👸🏻💗",
+"حبيتڪ ؏ بتفڪريني بنفسي 👸🏻💗",
+"حبيتڪ ؏ بتعمليلي حاجات مخصوص 👸🏻💗",
+"حبيتڪ ؏ عشانڪ انتي 👸🏻💗",
+"حبيتڪ ؏ بتضحڪي علي نڪتي البايخه 👸🏻💗",
+"حبيتڪ ؏ بتغيري الموضوع لما ازعل 👸🏻💗",
+"حبيتڪ ؏ بتقولي خد بالڪ من نفسڪ 👸🏻💗",
+"حبيتڪ ؏ بتطمني اهلي عليا 👸🏻💗",
+"حبيتڪ ؏ بتحبي نفس اللي بحبه 👸🏻💗",
+"حبيتڪ ؏ بتصلي 👸🏻💗",
+"حبيتڪ ؏ تعرفي ربنا 👸🏻💗",
+"حبيتڪ ؏ بتستحملي رغيي 👸🏻💗",
+"حبيتڪ ؏ بتفرحي لفرحي 👸🏻💗",
+"حبيتڪ ؏ بتعيطي لزعلي 👸🏻💗",
+"حبيتڪ ؏ بتلوني يومي 👸🏻💗",
+"حبيتڪ ؏ بتخلي قلبي يدق 👸🏻💗",
+"حبيتڪ ؏ بتخليني اتلهف عليڪي 👸🏻💗",
+"حبيتڪ ؏ وحشتڪ بتوجع 👸🏻💗",
+"حبيتڪ ؏ وجودڪ فارق 👸🏻💗",
+"حبيتڪ ؏ غيابڪ بيعلمني 👸🏻💗",
+"حبيتڪ ؏ رجوعڪ عيد 👸🏻💗",
+"حبيتڪ ؏ وعدڪ 👸🏻💗",
+"حبيتڪ ؏ ڪلامڪ الصادق 👸🏻💗",
+"حبيتڪ ؏ عينڪ اللي بتطمن 👸🏻💗",
+"حبيتڪ ؏ ايدڪ الحنينه 👸🏻💗",
+"حبيتڪ ؏ صبرڪ عليا 👸🏻💗",
+"حبيتڪ ؏ بتشوفيني احسن واحد 👸🏻💗",
+"حبيتڪ ؏ بتقولي فخوره بيڪ 👸🏻💗",
+"حبيتڪ ؏ بتحاربي عشاني 👸🏻💗",
+"حبيتڪ ؏ بتقفي ف ضهري 👸🏻💗",
+"حبيتڪ ؏ سرڪ معايا 👸🏻💗",
+"حبيتڪ ؏ سره معاڪي 👸🏻💗",
+"حبيتڪ ؏ احلامنا سوا 👸🏻💗",
+"حبيتڪ ؏ بيتنا اللي لسه هنبنيه 👸🏻💗",
+"حبيتڪ ؏ عيالنا اللي ف بالي 👸🏻💗",
+"حبيتڪ ؏ اسمهم اللي اخترناه 👸🏻💗",
+"حبيتڪ ؏ دعواتڪ ليا 👸🏻💗",
+"حبيتڪ ؏ ربنا جمعنا 👸🏻💗",
+"حبيتڪ ؏ نصيبي 👸🏻💗",
+"حبيتڪ ؏ قسمتي 👸🏻💗",
+"حبيتڪ ؏ رزقي 👸🏻💗",
+"حبيتڪ ؏ نعمتي 👸🏻💗",
+"حبيتڪ ؏ هديه ربنا ليا 👸🏻💗",
+"حبيتڪ ؏ معجزه ف حياتي 👸🏻💗",
+"حبيتڪ ؏ بتخليني اتمني ابقي قدڪ 👸🏻💗",
+"حبيتڪ ؏ بتخليني عايز ابقي راجل قد ڪلمتي 👸🏻💗",
+"حبيتڪ ؏ بتخليني احب نفسي 👸🏻💗",
+"حبيتڪ ؏ علمتيني الحب 👸🏻💗",
+"حبيتڪ ؏ علمتيني الوفاء 👸🏻💗",
+"حبيتڪ ؏ علمتيني يعني ايه امان 👸🏻💗",
+"حبيتڪ ؏ علمتيني يعني ايه بيت 👸🏻💗",
+"حبيتڪ ؏ علمتيني يعني ايه عيله 👸🏻💗",
+"حبيتڪ ؏ علمتيني يعني ايه احب بجد 👸🏻💗",
+"حبيتڪ ؏ ببساطه... عشانڪ انتي 👸🏻💗"
+];
+
+const list=document.getElementById('list');
+reasons.forEach((t,i)=>{
+  const card=document.createElement('div');card.className='card';
+  const n=document.createElement('div');n.className='num';n.textContent=(i+1).toString().padStart(3,'0');
+  const tx=document.createElement('div');tx.className='txt';tx.textContent=t.replace('👸🏻💗','').trim();
+  const em=document.createElement('img');em.className='emoji';em.src='https://emojicdn.elk.sh/💗?style=apple';
+  if(t.includes('👸🏻')){const em2=document.createElement('img');em2.className='emoji';em2.src='https://emojicdn.elk.sh/👸🏻?style=apple';em2.style.marginLeft='4px';tx.appendChild(em2);}
+  tx.appendChild(em);
+  card.appendChild(n);card.appendChild(tx);
+  list.appendChild(card);
+});
+
+// كليك
+document.getElementById('tap').onclick=()=>{
+  if(ready&&ytPlayer){ytPlayer.seekTo(43,true);ytPlayer.setVolume(85);ytPlayer.playVideo()}
+  setInterval(heart,80);
+  document.getElementById('counter').classList.add('show');
+  document.getElementById('intro').style.transform='scale(1.12)';document.getElementById('intro').style.opacity='0';document.getElementById('intro').style.pointerEvents='none';
+  setTimeout(()=>{
+    document.body.style.overflowY='auto';
+    document.getElementById('reasons').classList.add('show');
+    const cards=document.querySelectorAll('.card');
+    const io=new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')});
+    },{threshold:.15});
+    cards.forEach(c=>io.observe(c));
+    // اظهر اول 10 بسرعة
+    cards.forEach((c,i)=>{setTimeout(()=>c.classList.add('show'),i*60)});
+  },900);
+}
+</script>
+</body>
+</html>
